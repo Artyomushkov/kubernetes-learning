@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.name }}
+  namespace: {{ .Values.app.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      bb: {{ .Values.app.name }}
+  template:
+    metadata:
+      labels:
+        bb: {{ .Values.app.name }}
+    spec:
+      containers:
+      - name: {{ .Values.app.containerName }}
+        image: {{ .Values.app.image }}
+        imagePullPolicy: Never
+        volumeMounts:
+          - mountPath: {{ .Values.app.mountPath }}
+            name: {{ .Values.app.mountName }}
+      volumes:
+        - name: {{ .Values.app.mountName }}
+          hostPath:
+            path: {{ .Values.app.volumePath }}
+    

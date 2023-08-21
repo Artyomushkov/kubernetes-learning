@@ -1,0 +1,32 @@
+service:
+  name: petclinic-service
+  namespace: default
+  app: petclinic
+  port: 8080
+  targetPort: 8080
+
+app:
+  name: petclinic
+  namespace: default
+  replicas: 1
+  containerName: petclinic-app
+  image: petclinic_image:1.0
+  mountPath: /var
+  mountName: petclinic-volume
+  volumePath: /Users/aushkov/volumes/kuber
+
+ingress:
+  className: nginx-petclinic
+  name: petclinic-ingress
+
+storageClass:
+  name: local-storage
+  mode: WaitForFirstConsumer
+
+volume:
+  name: petclinic-pv 
+  policy: Retain
+  path: /Users/aushkov/volumes/kuber
+  node: docker-desktop
+  claimName: petclinic-pvc
+  storage: 1Gi

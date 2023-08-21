@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: petclinic
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      bb: petclinic
+  template:
+    metadata:
+      labels:
+        bb: petclinic
+    spec:
+      containers:
+      - name: petclinic-app
+        image: petclinic_image:1.0
+        imagePullPolicy: Never
+        volumeMounts:
+          - mountPath: /var
+            name: petclinic-volume
+      volumes:
+        - name: petclinic-volume
+          persistentVolumeClaim:
+            claimName: petclinic-pvc
